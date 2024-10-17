@@ -13,7 +13,7 @@ fs.writeFile('./data/nuevofile.txt', 'Nuevo conetnido', (err)=>{
     console.log('Archivo creado y escrito');
 });
 
-fs.rename('./data/newfile.txt', './data/renamefile.txt', (err)=>{
+fs.rename('./data/nuevofile.txt', './data/renamefile.txt', (err)=>{
     if(err) throw err;
     console.log('Archivo renombrado');
 });
