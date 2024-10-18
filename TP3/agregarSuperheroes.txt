@@ -1,0 +1,54 @@
+[
+  {
+    "id": 4,
+    "nombreSuperheroe": "Black Widow",
+    "nombreReal": "Natasha Romanoff",
+    "nombreSociedad": "Vigilante",
+    "edad": 33,
+    "planetaOrigen": "Tierra",
+    "debilidad": "Ninguna conocida",
+    "poder": ["Maestría en combate", "Espionaje"],
+    "habilidadEspecial": "Entrenamiento de élite",
+    "aliado": ["Hawkeye"],
+    "enemigo": ["Taskmaster"]
+  },
+  {
+    "id": 5,
+    "nombreSuperheroe": "Hulk",
+    "nombreReal": "Bruce Banner",
+    "nombreSociedad": "Vigilante",
+    "edad": 40,
+    "planetaOrigen": "Tierra",
+    "debilidad": "Control emocional",
+    "poder": ["Fuerza bruta", "Resistencia"],
+    "habilidadEspecial": "Regeneración rápida",
+    "aliado": ["Ironman"],
+    "enemigo": ["Loki"]
+  },
+  {
+    "id": 6,
+    "nombreSuperheroe": "Captain America",
+    "nombreReal": "Steve Rogers",
+    "nombreSociedad": "Vigilante",
+    "edad": 103,
+    "planetaOrigen": "Tierra",
+    "debilidad": "No tiene habilidades sobrehumanas",
+    "poder": ["Fuerza aumentada", "Agilidad"],
+    "habilidadEspecial": "Escudo indestructible",
+    "aliado": ["Bucky Barnes"],
+    "enemigo": ["Red Skull"]
+  },
+  {
+    "id": 7,
+    "nombreSuperheroe": "Doctor Strange",
+    "nombreReal": "Stephen Strange",
+    "nombreSociedad": "Hechicero Supremo",
+    "edad": 40,
+    "planetaOrigen": "Tierra",
+    "debilidad": "Desconocida",
+    "poder": ["Magia", "Teletransportación"],
+    "habilidadEspecial": "Hechizos poderosos",
+    "aliado": ["Wong"],
+    "enemigo": ["Dormammu"]
+  }
+]
