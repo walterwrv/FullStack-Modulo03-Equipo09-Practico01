@@ -31,8 +31,18 @@ export function leerSuperherores(ruta) {
         )
     )
 
-    // ordenar por nombre de superheroe
+    // ordenar por nombre de superheroe de la A a la Z
     superheroes.sort((a,b) => a.nombreSuperheroe.localeCompare(b.nombreSuperheroe));
+
+    // ordenar por nombre de superheroe de la Z a la A
+    //superheroes.sort((a,b) => b.nombreSuperheroe.localeCompare(a.nombreSuperheroe));
+
+    //ordenar por id de forma ascedente
+    // superheroes.sort((a,b) => a.id - b.id);
+
+    //ordenar por id de forma descedente
+    // superheroes.sort((a,b) => b.id - a.id);
+
     return superheroes;
 }
 
@@ -53,7 +63,7 @@ export function agregarSuperheroes(rutaOriginal, rutaNuevos) {
     //combinar listas
     const listaActualizada = [...superheroesOriginales, ...instanciasNuevos];
 
-    //guardar lisa actualizada
+    //guardar lisa actualizada en archivo original
     fs.writeFileSync(rutaOriginal, JSON.stringify(listaActualizada, null, 2), 'utf8');
     console.log('lista de superheropes actualizada con éxito.');
 }
