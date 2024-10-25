@@ -22,6 +22,7 @@ class Superherore {
 export function leerSuperherores(ruta) {
     
     const datos = fs.readFileSync(ruta, 'utf8');
+    //convierte los datos a array de objetos JS
     const superheroesArray = JSON.parse(datos);
     
     //convertir a instancia de superherores
@@ -60,7 +61,7 @@ export function agregarSuperheroes(rutaOriginal, rutaNuevos) {
         )
     )
 
-    //combinar listas
+    //combinar listas con "spread operator"
     const listaActualizada = [...superheroesOriginales, ...instanciasNuevos];
 
     //guardar lisa actualizada en archivo original
