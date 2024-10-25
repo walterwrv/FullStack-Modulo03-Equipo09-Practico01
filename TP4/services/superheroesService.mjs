@@ -30,3 +30,10 @@ export function obtenerSuperheroeMayoresDe30(){
         hero => hero.edad > 30 && hero.planetaOrigen === 'Tierra' && hero.poder.length >= 2
     );
 }
+
+export function obtenerSuperheroes(){
+    //puedo usar el metodo de la clase llamado obtenerTodos(), para obtener el contendio del archivo .txt en fomrato de array de objetos JS
+    const superheroes = repository.obtenerTodos();
+    //retorno todos los superheroes
+    return superheroes;
+}
