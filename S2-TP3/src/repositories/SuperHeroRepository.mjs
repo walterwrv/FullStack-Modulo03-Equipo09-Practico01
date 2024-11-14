@@ -44,7 +44,8 @@ class SuperHeroRepository extends IRepository{
             return await SuperHero.find({
                 edad: { $gt: 30 },
                 planetaOrigen: 'Tierra',
-                $expr: { $gte: [{ $size: "$poderes" }, 2] }
+                poderes: { $exists: true, $type: 'array' }, // Aseguramos que "poderes" existe y es un array
+                $expr: { $gte: [{ $size: "$poderes" }, 2] } // Aseguramos que el tamaño del array sea al menos 2
             });
         } catch (error) {
             console.error('Error al obtener los héroes:', error);
