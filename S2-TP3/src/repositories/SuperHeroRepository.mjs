@@ -7,22 +7,36 @@ import IRepository from './IRepository.mjs';
 class SuperHeroRepository extends IRepository{
     
     async obtenerPorId(id){
-        return await SuperHero.findById(id);
+        try {
+            return await SuperHero.findById(id);
+        } catch (error) {
+            console.error('Error al obtener los héroes:', error);
+            throw error; 
+        }
     }
     
     async obtenerTodos(){
-        return await SuperHero.find();
+        try {
+            return await SuperHero.find(); 
+        } catch (error) {
+            console.error('Error al obtener los héroes:', error);
+            throw error; 
+        }
     }
 
     async buscarPorAtributo(atributo, valor){
-        
-        if(atributo != 'edad'){
-            const query = {[atributo]: new RegExp(valor,'i')};
-            return await SuperHero.find(query);
-        }else{
-            const query = {[atributo]: valor};
-            return await SuperHero.find(query);
-        }  
+        try {
+            if(atributo != 'edad'){
+                const query = {[atributo]: new RegExp(valor,'i')};
+                return await SuperHero.find(query);
+            }else{
+                const query = {[atributo]: valor};
+                return await SuperHero.find(query);
+            } 
+        } catch (error) {
+            console.error('Error al obtener los héroes:', error);
+            throw error; 
+        }
     }
 
     async  obtenerMayoresDe30() {
