@@ -15,14 +15,27 @@ class SuperHeroRepository extends IRepository{
     }
 
     async buscarPorAtributo(atributo, valor){
-        const query = {[atributo]: new RegExp(valor,'i')};
-        return await SuperHero.find(query);
+        
+        if(atributo != 'edad'){
+            const query = {[atributo]: new RegExp(valor,'i')};
+            return await SuperHero.find(query);
+        }else{
+            const query = {[atributo]: valor};
+            return await SuperHero.find(query);
+        }  
     }
 
-    async obtenerMayoresDe30(){
-        // return await SuperHero.find({edad: {$gt:30}, planetaOrigen: 'Tierra', poderes: {$size: {$gte:2}}});
-        return await SuperHero.find({edad: {$gt:30}, planetaOrigen: 'Tierra', poderes: { $size: 2 } });
-        
+    async  obtenerMayoresDe30() {
+        try {
+            return await SuperHero.find({
+                edad: { $gt: 30 },
+                planetaOrigen: 'Tierra',
+                $expr: { $gte: [{ $size: "$poderes" }, 2] }
+            });
+        } catch (error) {
+            console.error('Error al obtener los héroes:', error);
+            throw error; // Re-lanzamos el error para que pueda ser manejado fuera si es necesario
+        }
     }
 }
 
