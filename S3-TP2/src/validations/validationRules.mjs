@@ -1,4 +1,4 @@
-    import { body, param, validationResult } from 'express-validator';
+    import { body, param } from 'express-validator';
 
 
     // Reglas para crear un superhéroe

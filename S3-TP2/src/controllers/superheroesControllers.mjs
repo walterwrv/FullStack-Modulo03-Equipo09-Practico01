@@ -51,6 +51,16 @@ export  async function obtenerSuperheroeMayoresDe30Controller(req, res){
 export  async function insertarSuperheroesController(req, res){
 
     const {nombreSuperHeroe,nombreReal,edad,planetaOrigen,debilidad,poderes,aliados,enemigos} = req.body;
+
+    // Verificar que los campos requeridos estén presentes (aunque ya los valida con el middleware)
+    if (!nombreSuperHeroe || !nombreReal || !edad || !poderes ) {
+        return res.status(400).json({ error: 'Faltan datos obligatorios' });
+    }
+  
+    // Validar que poder sea un arreglo (ya esta en el middleware, pero se hace aquí por seguridad)
+    if (!Array.isArray(poderes)) {
+        return res.status(400).json({ error: 'El campo poderes debe ser un arreglo' });
+    }
     
     const superheroe =  await insertarSuperheroes(nombreSuperHeroe, nombreReal, edad, planetaOrigen,debilidad,poderes,aliados,enemigos);
 
