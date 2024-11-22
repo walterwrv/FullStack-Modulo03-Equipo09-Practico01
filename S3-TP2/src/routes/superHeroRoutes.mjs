@@ -7,8 +7,7 @@ import {
     insertarSuperheroeValidationRules, 
     actualizarSuperheroeValidationRules 
   } from '../validations/validationRules.mjs';  // Asegúrate de que la ruta sea correcta
-  import { validar } from '../validations/validationRules.mjs'; // Importa el middleware de validación de errores
-
+  import { handleValidationErrors } from '../validations/errorMiddleware.mjs';// Importa el middleware de validación de errores
 
 const router = express.Router();
 
@@ -20,7 +19,7 @@ router.get('/edad/mayorA30', obtenerSuperheroeMayoresDe30Controller);
 //crear un nuevo superheroe
 router.post('/', 
     insertarSuperheroeValidationRules(),  // Valida los campos antes de procesar
-    validar,  // Middleware que maneja los errores de validación
+    handleValidationErrors,  // Middleware que maneja los errores de validación
     insertarSuperheroesController
 );
 
