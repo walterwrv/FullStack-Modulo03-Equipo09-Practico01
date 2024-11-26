@@ -124,8 +124,8 @@
             <label for="enemigos">Enemigos (separados por comas):</label>
             <textarea id="enemigos" name="enemigos"><%= datosHeroe.enemigos.join(', ') %></textarea>
 
-            <label for="cargadoPor">Cargado por:</label>
-            <input type="text" id="cargadoPor" name="cargadoPor" value="<%= datosHeroe.creador %>" required>
+            <label for="creador">Cargado por:</label>
+            <input type="text" id="creador" name="creador" value="<%= datosHeroe.creador %>" required>
 
             <!-- Botón para enviar el formulario -->
             <button type="submit">Guardar Cambios</button>
@@ -156,9 +156,8 @@
                 },
                 body: JSON.stringify(data),  // Convertimos los datos del formulario a JSON
             });
-            console.log(response);
             // Maneja la respuesta del servidor
-            if (!response.ok) {
+            if (response.ok) {
                 messageDiv.innerHTML = '<p class="success-message">Héroe actualizado correctamente</p>';
                 window.location.href = "/superheroes";
 

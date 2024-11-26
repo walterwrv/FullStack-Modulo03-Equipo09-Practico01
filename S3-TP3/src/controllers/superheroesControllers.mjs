@@ -127,14 +127,23 @@ export async function editHeroeId(req, res) {
 export async function editarGuardar(req, res) {
     try {
         const { id } = req.params;
-        const datosActualizados = req.body;
+        // const datosActualizados = req.body;
+
+        
+        const datosActualizados = {
+            ...req.body,
+            poderes: req.body.poderes.split(',').map(poder => poder.trim()),
+            aliados: req.body.aliados.split(',').map(aliado => aliado.trim()),
+            enemigos: req.body.enemigos.split(',').map(enemigo => enemigo.trim())
+          };
         
         const actualizado = await modificarSuperheroeService(id, datosActualizados);
-        console.log(actualizado);
-        // if (!actualizado) {
-        //     return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
-        // }
-        res.redirect('/superheroes');
+        console.log('valor de actualizado en controlller ',actualizado);
+        if (!actualizado) {
+            return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
+        }
+        return res.status(200).send({ mensaje: 'Superhéroe actualizado correctamente' });
+
     } catch (error) {
         res.status(500).json({ mensaje: 'Error interno del servidor', error: error.message });
     }
