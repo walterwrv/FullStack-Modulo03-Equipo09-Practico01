@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Héroe</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f7fa;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+
+        .form-container {
+            width: 60%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: grid;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #333;
+        }
+
+        input, textarea {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            font-size: 1.1em;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .error-message {
+            color: red;
+            font-size: 0.9em;
+        }
+
+        .success-message {
+            color: green;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .form-container input:focus, .form-container textarea:focus {
+            border-color: #4CAF50;
+            outline: none;
+        }
+
+        .form-container input[type="number"] {
+            width: 50%;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Editar Héroe</h1>
+
+    <div class="form-container">
+        <!-- Formulario para editar héroe -->
+        <form id="editarHeroeForm">
+            <input type="hidden" name="id" value="<%= datosHeroe._id %>">
+            
+            <!-- Campos editables -->
+            <label for="nombreSuperHeroe">Nombre del Superhéroe:</label>
+            <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" value="<%= datosHeroe.nombreSuperHeroe %>" required>
+
+            <label for="nombreReal">Nombre Real:</label>
+            <input type="text" id="nombreReal" name="nombreReal" value="<%= datosHeroe.nombreReal %>" required>
+
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" value="<%= datosHeroe.edad %>" min="0" required>
+
+            <label for="planetaOrigen">Planeta de Origen:</label>
+            <input type="text" id="planetaOrigen" name="planetaOrigen" value="<%= datosHeroe.planetaOrigen %>" required>
+
+            <label for="debilidad">Debilidad:</label>
+            <input type="text" id="debilidad" name="debilidad" value="<%= datosHeroe.debilidad %>">
+
+            <label for="poderes">Poderes (separados por comas):</label>
+            <textarea id="poderes" name="poderes"><%= datosHeroe.poderes.join(', ') %></textarea>
+
+            <label for="aliados">Aliados (separados por comas):</label>
+            <textarea id="aliados" name="aliados"><%= datosHeroe.aliados.join(', ') %></textarea>
+
+            <label for="enemigos">Enemigos (separados por comas):</label>
+            <textarea id="enemigos" name="enemigos"><%= datosHeroe.enemigos.join(', ') %></textarea>
+
+            <label for="cargadoPor">Cargado por:</label>
+            <input type="text" id="cargadoPor" name="cargadoPor" value="<%= datosHeroe.creador %>" required>
+
+            <!-- Botón para enviar el formulario -->
+            <button type="submit">Guardar Cambios</button>
+
+            <div id="formMessage"></div>
+        </form>
+    </div>
+
+    <script>
+        // Obtén el formulario
+        const form = document.getElementById('editarHeroeForm');
+        const messageDiv = document.getElementById('formMessage');
+       
+        // Escucha el evento de envío del formulario
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();  // Prevenir el envío normal del formulario
+            
+            // Obtén los datos del formulario
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            console.log(JSON.stringify(data));
+            // Realiza la solicitud PUT utilizando fetch
+            const response = await fetch('/superheroes/editarHeroe', {
+                method: 'PUT',  // Especifica que el método es PUT
+                headers: {
+                    'Content-Type': 'application/json',  // Enviamos los datos como JSON
+                },
+                body: JSON.stringify(data),  // Convertimos los datos del formulario a JSON
+            });
+
+            // Maneja la respuesta del servidor
+            if (response.ok) {
+                messageDiv.innerHTML = '<p class="success-message">Héroe actualizado correctamente</p>';
+                window.location.href = "/superheroes";
+
+            // Redirige o actualiza la página si es necesario
+            } else {
+                messageDiv.innerHTML = '<p class="error-message">Error al actualizar héroe</p>';
+            }
+        });
+    </script>
+
+</body>
+</html>
