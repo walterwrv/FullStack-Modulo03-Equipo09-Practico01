@@ -3,7 +3,7 @@ de las url y llama a la funciones que los van a utiliar. Tambien invoca la rende
 
 import {obtenerSuperheroePorId, buscarSuperheroesPorAtributo, obtenerSuperheroesMayoresDe30, 
     obtenerTodosLosSuperheroes, insertarSuperheroes, modificarSuperheroes, eliminarSuperheroesId, 
-    eliminarSuperheroesNombre, modificarSuperheroe} 
+    eliminarSuperheroesNombre, modificarSuperheroeService} 
 from "../services/superheroesService.mjs";
 
 import {renderizarSuperheroe, renderizarListaSuperheroes} from '../views/responseView.mjs';
@@ -126,12 +126,14 @@ export async function editHeroeId(req, res) {
 
 export async function editarGuardar(req, res) {
     try {
+        const { id } = req.params;
         const datosActualizados = req.body;
-        const actualizado = await modificarSuperheroe(datosActualizados.id, datosActualizados);
-
-        if (!actualizado) {
-            return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
-        }
+        
+        const actualizado = await modificarSuperheroeService(id, datosActualizados);
+        console.log(actualizado);
+        // if (!actualizado) {
+        //     return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
+        // }
         res.redirect('/superheroes');
     } catch (error) {
         res.status(500).json({ mensaje: 'Error interno del servidor', error: error.message });

@@ -43,7 +43,7 @@ router.post('/guardar',
 );
 
 router.get('/editar/:id',editHeroeId)
-router.put('/editarHeroe', editarGuardar);
+router.put('/editarHeroe/:id', editarGuardar);
 
 
 export default router;

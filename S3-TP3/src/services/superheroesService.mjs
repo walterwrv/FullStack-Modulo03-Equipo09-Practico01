@@ -33,12 +33,8 @@ export async function modificarSuperheroes(id, nombreSuperHeroe,nombreReal, edad
 }
 
 //Servicio para modificar un superhéroe
-export async function modificarSuperheroe(id, datosActualizados) {
-    return await SuperHeroRepository.modificarSuperheroe(id, {
-        ...datosActualizados,
-        ultimaActualizacion: new Date(), // Lógica adicional
-        }
-    );
+export async function modificarSuperheroeService(id, datosActualizados) {
+    return await SuperHeroRepository.modificarSuperheroe2(id,datosActualizados);
 }
 
 export async function eliminarSuperheroesId(id){

@@ -147,18 +147,18 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            console.log(JSON.stringify(data));
+            console.log(data.id);
             // Realiza la solicitud PUT utilizando fetch
-            const response = await fetch('/superheroes/editarHeroe', {
+            const response = await fetch(`/superheroes/editarHeroe/${data.id}`, {
                 method: 'PUT',  // Especifica que el método es PUT
                 headers: {
                     'Content-Type': 'application/json',  // Enviamos los datos como JSON
                 },
                 body: JSON.stringify(data),  // Convertimos los datos del formulario a JSON
             });
-
+            console.log(response);
             // Maneja la respuesta del servidor
-            if (response.ok) {
+            if (!response.ok) {
                 messageDiv.innerHTML = '<p class="success-message">Héroe actualizado correctamente</p>';
                 window.location.href = "/superheroes";
 

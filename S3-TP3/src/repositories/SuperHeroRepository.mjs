@@ -102,12 +102,16 @@ class SuperHeroRepository extends IRepository{
         return superheroeActualizado;
     }
 
-    async modificarSuperheroe(id, datosActualizados) {
-        return await SuperHero.findOneAndUpdate(
-            { _id: id }, // Criterio de búsqueda por id.
-            datosActualizados, // Datos a actualizar.
-            { new: true } // Retorna el documento actualizado.
+    async modificarSuperheroe2(id, datosActualizados) {
+        // Encontrar y actualizar el superhéroe
+        const superheroeActualizado = await SuperHero.findByIdAndUpdate(
+            id,  // ID del superhéroe a actualizar
+            datosActualizados,// Campos a actualizar (tomados del cuerpo de la petición)
+            { new: true }  // Devolver el documento actualizado
         );
+
+       // Devolver el superhéroe actualizado
+        return superheroeActualizado;
     }
 
     async  eliminarSuperheroeId(id) {
