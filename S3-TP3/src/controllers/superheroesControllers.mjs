@@ -173,7 +173,7 @@ export async function editarGuardar(req, res) {
           };
         
         const actualizado = await modificarSuperheroeService(id, datosActualizados);
-        console.log('valor de actualizado en controlller ',actualizado);
+        
         if (!actualizado) {
             return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
         }
