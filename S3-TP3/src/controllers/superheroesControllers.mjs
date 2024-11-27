@@ -22,7 +22,7 @@ export async function obtenerSuperheroePorIdController(req, res){
 export async function obtenerTodosLosSuperheroesController(req, res){
     
     const superheroes = await obtenerTodosLosSuperheroes();
-    res.render('dashboard-chart', {superheroes})
+    res.render('dashboard', {superheroes})
     
 }
 
@@ -142,6 +142,7 @@ export async function editarGuardar(req, res) {
         if (!actualizado) {
             return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
         }
+         
         return res.status(200).send({ mensaje: 'Superhéroe actualizado correctamente' });
 
     } catch (error) {

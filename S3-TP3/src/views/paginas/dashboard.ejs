@@ -1,168 +1,213 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Superhéroes</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f9;
-      margin: 0;
-      padding: 20px;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
-    .header input[type="text"] {
-      width: 70%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .header button {
-      padding: 10px 20px;
-      border: none;
-      background-color: #007BFF;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .header button:hover {
-      background-color: #0056b3;
-    }
-    .cards-container {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
-    .card {
-      background-color: #ffffff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      padding: 15px;
-      width: 300px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-      position: relative;
-    }
-    .card h2 {
-      margin: 0;
-      font-size: 24px;
-      color: #333;
-    }
-    .card p {
-      margin: 8px 0;
-      color: #555;
-    }
-    .card p strong {
-      color: #000;
-    }
-    .card .actions {
-      margin-top: 15px;
-      display: flex;
-      justify-content: space-between;
-    }
-    .card button {
-      padding: 8px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    .card .edit-btn {
-      background-color: #ffc107;
-      color: #fff;
-    }
-    .card .edit-btn:hover {
-      background-color: #e0a800;
-    }
-    .card .delete-btn {
-      background-color: #dc3545;
-      color: #fff;
-    }
-    .card .delete-btn:hover {
-      background-color: #c82333;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Superhéroes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-bar {
+            display: flex;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .search-bar button:hover {
+            background: #0056b3;
+        }
+
+        .hero-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .hero-item {
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background: #fafafa;
+        }
+
+        .hero-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .hero-header:hover {
+            background: #f0f0f0;
+        }
+
+        .hero-actions button {
+            margin-left: 10px;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .hero-actions .edit-btn {
+            background: #28a745;
+            color: white;
+        }
+
+        .hero-actions .edit-btn:hover {
+            background: #218838;
+        }
+
+        .hero-actions .delete-btn {
+            background: #dc3545;
+            color: white;
+        }
+
+        .hero-actions .delete-btn:hover {
+            background: #c82333;
+        }
+
+        .hero-details {
+            padding: 10px 15px;
+            display: none;
+            background: #f9f9f9;
+            border-top: 1px solid #ccc;
+        }
+
+        .hero-details p {
+            margin: 5px 0;
+        }
+
+        .add-button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .add-button:hover {
+            background: #0056b3;
+        }
+    </style>
 </head>
 <body>
-  <div class="header">
-    <input type="text" id="searchBar" placeholder="Buscar superhéroe...">
-    <button onclick="agregarHeroe()">Agregar Héroe</button>
-  </div>
-  <h1>Listado de Superhéroes</h1>
-  <div class="cards-container" id="cardsContainer">
-    <% superheroes.forEach(superHeroe => { %>
-      <div class="card">
-        <h2><%= superHeroe.nombreSuperHeroe %></h2>
-        <p><strong>Nombre Real:</strong> <%= superHeroe.nombreReal %></p>
-        <p><strong>Edad:</strong> <%= superHeroe.edad %> años</p>
-        <p><strong>Planeta de Origen:</strong> <%= superHeroe.planetaOrigen %></p>
-        <p><strong>Debilidad:</strong> <%= superHeroe.debilidad %></p>
-        <p><strong>Poderes:</strong> <%= superHeroe.poderes.join(", ") %></p>
-        <p><strong>Aliados:</strong> <%= superHeroe.aliados.join(", ") %></p>
-        <p><strong>Enemigos:</strong> <%= superHeroe.enemigos.join(", ") %></p>
-        <p><strong>Cargado por:</strong> <%= superHeroe.CargadoPor %></p>
-        <div class="actions">
-          <button class="edit-btn" onclick="modificarHeroe('<%= superHeroe.id %>')">Modificar</button>
-          <button class="delete-btn" onclick="eliminarHeroe('<%= superHeroe.id %>')">Eliminar</button>
+    <div class="container">
+        <h1>Gestión de Superhéroes</h1>
+
+        <!-- Barra de búsqueda -->
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Buscar superhéroe...">
         </div>
-      </div>
-    <% }) %>
-  </div>
 
-  <script>
-    // Función para buscar héroes en la barra de búsqueda
-    document.getElementById('searchBar').addEventListener('input', function () {
-      const filter = this.value.toLowerCase();
-      const cards = document.querySelectorAll('.card');
-      
-      cards.forEach(card => {
-        const heroName = card.querySelector('h2').innerText.toLowerCase();
-        card.style.display = heroName.includes(filter) ? '' : 'none';
-      });
-    });
+        <!-- Lista de superhéroes -->
+        <ul class="hero-list" id="heroList">
+            <% superheroes.forEach(superHeroe => { %>
+            <!-- Ejemplo de héroes -->
+            <li class="hero-item">
+                <div class="hero-header" onclick="toggleDetails(this)">
+                    <%= superHeroe.nombreSuperHeroe %>
+                    <div class="hero-actions">
+                        <button class="edit-btn" onclick="editHero(event, '<%= superHeroe.id %>')">Editar</button>
+                        <button class="delete-btn" onclick="deleteHero(event, 'Superman')">Eliminar</button>
+                    </div>
+                </div>
+                <div class="hero-details">
+                    <p><strong>Edad:</strong> <%= superHeroe.edad %> años</p>
+                    <p><strong>Planeta de Origen:</strong> <%= superHeroe.planetaOrigen %></p>
+                    <p><strong>Debilidad:</strong> <%= superHeroe.debilidad %></p>
+                    <p><strong>Poderes:</strong> <%= superHeroe.poderes.join(", ") %></p>
+                    <p><strong>Aliados:</strong> <%= superHeroe.aliados.join(", ") %></p>
+                    <p><strong>Enemigos:</strong> <%= superHeroe.enemigos.join(", ") %></p>
+                    <p><strong>Cargado por:</strong> <%= superHeroe.creador %></p>
+                </div>
+            </li>
+            <% }) %>
+            
+        </ul>
 
-    // Función para agregar un héroe 
-    function agregarHeroe() {
+        <!-- Botón para agregar -->
+        <button class="add-button" onclick="addHero()">Agregar Superhéroe</button>
+    </div>
 
-      window.location.href = './agregar';
-    }
+    <script>
+        function toggleDetails(header) {
+            const details = header.nextElementSibling;
+            const isVisible = details.style.display === 'block';
+            details.style.display = isVisible ? 'none' : 'block';
+        }
 
-    // Función para modificar un héroe (deberías reemplazar con lógica real)
-    function modificarHeroe(id) {
-      window.location.href = `./editar/${id}`;
-     // alert(`Modificar héroe con ID: ${id}`);
-    }
-
-    // Función para eliminar un héroe (deberías reemplazar con lógica real)
-    function eliminarHeroe(id) {
-      const confirmar = confirm(`¿Seguro que deseas eliminar el héroe con ID: ${id}?`);
-      
-      if (confirmar) {
-        // Realizar una solicitud DELETE con fetch
-        fetch(`/api/heroes/borrarPorId/${id}`, {
-          method: 'DELETE',  // Método DELETE para eliminar el recurso
-        })
-        .then(response => {
-          if (response.ok) {
-            alert(`Héroe con ID ${id} eliminado`);
-            // Redirigir a otra página o actualizar la UI
-            window.location.href = "/api/heroes"; // o la ruta que desees
-          } else {
-            alert('Hubo un error al eliminar el héroe');
-          }
-        })
-        .catch(error => {
-          console.error('Error al realizar la solicitud DELETE:', error);
-          alert('Hubo un problema con la solicitud');
+        document.getElementById('searchInput').addEventListener('input', function () {
+            const input = document.getElementById('searchInput').value.toLowerCase();
+            const heroes = document.querySelectorAll('.hero-item');
+            heroes.forEach(hero => {
+                const name = hero.querySelector('.hero-header').textContent.toLowerCase();
+                hero.style.display = name.includes(input) ? 'block' : 'none';
+            });
         });
-      }
-    }
-    
-  </script>
+
+        function editHero(event, id) {
+            event.stopPropagation(); // Evitar que se abra el detalle
+           
+            window.location.href = `./superheroes/editar/${id}`;
+
+        }
+
+        function deleteHero(event, name) {
+            event.stopPropagation(); // Evitar que se abra el detalle
+            if (confirm(`¿Seguro que quieres eliminar a ${name}?`)) {
+                alert(`Héroe eliminado: ${name}`);
+            }
+        }
+
+        function addHero() {
+            // alert('Agregar un nuevo héroe');
+            window.location.href = './superheroes/agregar';
+        }
+    </script>
 </body>
 </html>
