@@ -54,20 +54,17 @@
         // Validación para poderes
         body('poderes')
             .notEmpty().withMessage('Debe ingresar al menos un poder')
-            .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
-            .withMessage('Cada poder debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+            .withMessage('Cada poder debe ser una cadena de texto entre 3 y 60 caracteres'),
         
         // Validación para aliados
         body('aliados')
-        .notEmpty().withMessage('Debe ingresar al menos un aliado')
-        .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
-        .withMessage('Cada aliado debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+            .notEmpty().withMessage('Debe ingresar al menos un aliado')
+            .withMessage('Cada aliado debe ser una cadena de texto entre 3 y 60 caracteres'),
             
         // Validación para enemigos
         body('enemigos')
-        .notEmpty().withMessage('Debe ingresar al menos un enemigo')
-        .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
-        .withMessage('Cada enemigo debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+            .notEmpty().withMessage('Debe ingresar al menos un enemigo')
+            .withMessage('Cada enemigo debe ser una cadena de texto entre 3 y 60 caracteres'),
     
         ];
     };
