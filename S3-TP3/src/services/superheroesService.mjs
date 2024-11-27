@@ -27,6 +27,11 @@ export async function insertarSuperheroes(nombreSuperHeroe, nombreReal, edad, pl
     return await SuperHeroRepository.insertarSuperheroe(nombreSuperHeroe, nombreReal, edad, planetaOrigen,debilidad,poderes,aliados,enemigos,creador);
 }
 
+export async function insertarSuperheroesDashboard(datosActualizados){
+    
+    return await SuperHeroRepository.insertarSuperheroeDashboard(datosActualizados);
+}
+
 export async function modificarSuperheroes(id, nombreSuperHeroe,nombreReal, edad, planetaOrigen){
     
     return await SuperHeroRepository.modificarSuperheroe(id, nombreSuperHeroe,nombreReal, edad, planetaOrigen);

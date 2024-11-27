@@ -3,7 +3,7 @@ de las url y llama a la funciones que los van a utiliar. Tambien invoca la rende
 
 import {obtenerSuperheroePorId, buscarSuperheroesPorAtributo, obtenerSuperheroesMayoresDe30, 
     obtenerTodosLosSuperheroes, insertarSuperheroes, modificarSuperheroes, eliminarSuperheroesId, 
-    eliminarSuperheroesNombre, modificarSuperheroeService} 
+    eliminarSuperheroesNombre, modificarSuperheroeService, insertarSuperheroesDashboard} 
 from "../services/superheroesService.mjs";
 
 import {renderizarSuperheroe, renderizarListaSuperheroes} from '../views/responseView.mjs';
@@ -64,6 +64,28 @@ export  async function insertarSuperheroesController(req, res){
 
     // res.send(renderizarSuperheroe(superheroe));
     // Si se guardó correctamente, rederigimos a la vista dashboard
+    req.flash('success_msg', 'Superhéroe insertado exitosamente');
+    return res.redirect('/superheroes');
+    
+   
+}
+
+export  async function insertarSuperheroesDashboardController(req, res){
+    
+    
+    const datosActualizados = {
+        ...req.body,
+        poderes: req.body.poderes.split(',').map(poder => poder.trim()),
+        aliados: req.body.aliados.split(',').map(aliado => aliado.trim()),
+        enemigos: req.body.enemigos.split(',').map(enemigo => enemigo.trim())
+      };
+    
+    
+    const superheroe =  await insertarSuperheroesDashboard(datosActualizados);
+
+    // res.send(renderizarSuperheroe(superheroe));
+    // Si se guardó correctamente, rederigimos a la vista dashboard
+    req.flash('success_msg', 'Superhéroe insertado exitosamente');
     return res.redirect('/superheroes');
     
    
@@ -86,11 +108,24 @@ export  async function modificarSuperheroesController(req, res){
 export  async function eliminarSuperheroesIdController(req, res){
 
     const {id} = req.params;
-    
     const superheroe =  await eliminarSuperheroesId(id);
 
     if(superheroe){
         res.send(renderizarSuperheroe(superheroe));
+    }else{
+        res.status(404).send({mensaje: 'No se encontró superheroe con ese ID'});
+    }
+}
+
+export  async function eliminarSuperheroesIdDashboardController(req, res){
+
+    const {id} = req.params;
+    const superheroe =  await eliminarSuperheroesId(id);
+
+    if(superheroe){
+        req.flash('success_msg', 'Superhéroe eliminado exitosamente');
+        res.redirect('/superheroes');
+        // return res.status(200).send({ mensaje: 'Superhéroe eliminado correctamente' });
     }else{
         res.status(404).send({mensaje: 'No se encontró superheroe con ese ID'});
     }
@@ -142,7 +177,8 @@ export async function editarGuardar(req, res) {
         if (!actualizado) {
             return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
         }
-         
+        req.flash('success_msg', 'Superhéroe actualizado exitosamente');
+        // res.redirect('/superheroes');
         return res.status(200).send({ mensaje: 'Superhéroe actualizado correctamente' });
 
     } catch (error) {

@@ -79,6 +79,10 @@
             background: #f0f0f0;
         }
 
+        .hero-actions {
+            display: flex; /* Activa el diseño en línea para los hijos */
+            gap: 5px; /* Espacio entre botones */
+        }
         .hero-actions button {
             margin-left: 10px;
             padding: 5px 10px;
@@ -133,12 +137,42 @@
         .add-button:hover {
             background: #0056b3;
         }
+
+        .custom-class {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #22c55e; /* Este es el color */
+            color: #ffffff; /* Color del texto en blanco */
+            padding: 1rem; /* Espaciado interno */
+            border-radius: 0.5rem; /* Bordes redondeados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+        }
+        .custom-text {
+            color: #ffffff; /* Texto blanco */
+            font-weight: 700; /* Negrita */
+            font-size: 0.875rem; /* Tamaño de fuente pequeño  */
+            line-height: 1.25rem; /* Altura de línea ajustada */
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Gestión de Superhéroes</h1>
-
+        <!-- Sección para mostrar mensajes flash -->
+         <br><br>
+        <div class="p-6">
+            <% if (success_msg && success_msg.length > 0) { %> <!-- Verifica si hay mensajes -->
+            <div id="success-message"
+                class="custom-class">
+                <span>
+                <%= success_msg[0] %> <!-- Muestra el primer mensaje -->
+                </span>
+                <button id="close-btn" class="custom-text">&times;</button>
+            </div>
+            <% } %>
+        </div>
+        <br>
         <!-- Barra de búsqueda -->
         <div class="search-bar">
             <input type="text" id="searchInput" placeholder="Buscar superhéroe...">
@@ -153,7 +187,12 @@
                     <%= superHeroe.nombreSuperHeroe %>
                     <div class="hero-actions">
                         <button class="edit-btn" onclick="editHero(event, '<%= superHeroe.id %>')">Editar</button>
-                        <button class="delete-btn" onclick="deleteHero(event, 'Superman')">Eliminar</button>
+                        <!-- <button class="delete-btn" onclick="deleteHero(event, '<%= superHeroe.id %>', '<%= superHeroe.nombreSuperHeroe%>')">Eliminar</button> -->
+                        <form action="/superheroes/eliminar/<%= superHeroe.id %>?_method=DELETE" method="POST">
+                            <button class="delete-btn" type="submit" onclick="return confirm('¿Estás seguro de que deseas eliminar este superhéroe?')">
+                                Eliminar
+                            </button>
+                        </form>
                     </div>
                 </div>
                 <div class="hero-details">
@@ -175,6 +214,18 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButton = document.getElementById('close-btn');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    const messageDiv = document.getElementById('success-message');
+                    if (messageDiv) {
+                        messageDiv.style.display = 'none'; // Oculta el mensaje
+                    }
+                });
+            }
+        })
+
         function toggleDetails(header) {
             const details = header.nextElementSibling;
             const isVisible = details.style.display === 'block';
@@ -197,10 +248,21 @@
 
         }
 
-        function deleteHero(event, name) {
+        
+        async function deleteHero(event, heroId, name) {
             event.stopPropagation(); // Evitar que se abra el detalle
+
             if (confirm(`¿Seguro que quieres eliminar a ${name}?`)) {
-                alert(`Héroe eliminado: ${name}`);
+                const response = await fetch(`./superheroes/eliminar/${heroId}`, {
+                    method: 'DELETE',
+                });
+
+                if (response.ok) {
+                    alert('Superhéroe eliminado con éxito');
+                    location.reload(); // Recargar la página después de eliminar
+                } else {
+                    alert('Error al eliminar el superhéroe');
+                }
             }
         }
 

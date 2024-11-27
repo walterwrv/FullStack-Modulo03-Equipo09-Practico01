@@ -83,6 +83,36 @@ class SuperHeroRepository extends IRepository{
         }
     }
 
+    async  insertarSuperheroeDashboard(datosActualizados) {
+        try {
+            // Crear un nuevo superhéroe con los datos del body
+            const nuevoSuperheroe = new SuperHero({
+                
+                nombreSuperHeroe: datosActualizados.nombreSuperHeroe,
+                nombreReal: datosActualizados.nombreReal,
+                edad: datosActualizados.edad,
+                planetaOrigen: datosActualizados.planetaOrigen,
+                debilidad: datosActualizados.debilidad,
+                poderes: datosActualizados.poderes,
+                aliados: datosActualizados.aliados,
+                enemigos: datosActualizados.enemigos,
+                creador: datosActualizados.creador,
+    
+            });
+    
+            // Guardar el superhéroe en la base de datos
+            const superheroeGuardado = await nuevoSuperheroe.save();
+            // Devolver el superhéroe creado
+            return superheroeGuardado;
+            
+            
+        } catch (error) {
+            // Manejar errores y devolver un mensaje apropiado
+            console.error('Error al crear superhéroe:', error);
+            res.status(500).json({ mensaje: 'Error al crear el superhéroe', error });
+        }
+    }
+
 
     async  modificarSuperheroe(id, nombreSuperHeroe,nombreReal, edad, planetaOrigen) {
         

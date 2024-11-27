@@ -1,12 +1,13 @@
 import express from 'express';
 import { obtenerSuperheroePorIdController,obtenerTodosLosSuperheroesController,buscarSuperheroePorAtributoController,obtenerSuperheroeMayoresDe30Controller, 
     insertarSuperheroesController, modificarSuperheroesController, eliminarSuperheroesIdController,eliminarSuperheroesNombreController,
-    editHeroeId, editarGuardar } from '../controllers/superheroesControllers.mjs';
+    editHeroeId, editarGuardar, eliminarSuperheroesIdDashboardController, insertarSuperheroesDashboardController } from '../controllers/superheroesControllers.mjs';
 
 // Importa las validaciones desde el middleware
 import { 
     insertarSuperheroeValidationRules, 
-    actualizarSuperheroeValidationRules 
+    actualizarSuperheroeValidationRules,
+    insertarSuperheroeValidationRulesDashboard 
   } from '../validations/validationRules.mjs';  // Asegúrate de que la ruta sea correcta
   import { handleValidationErrors } from '../validations/errorMiddleware.mjs';// Importa el middleware de validación de errores
 
@@ -37,13 +38,15 @@ router.delete('/nombre/:nombre', eliminarSuperheroesNombreController);
 //rutas ejs
 router.get('/agregar', (req,res)=> res.render('addSuperhero'));
 router.post('/guardar', 
-    insertarSuperheroeValidationRules(),  // Valida los campos antes de procesar
+    insertarSuperheroeValidationRulesDashboard(),  // Valida los campos antes de procesar
     handleValidationErrors,  // Middleware que maneja los errores de validación
-    insertarSuperheroesController
+    insertarSuperheroesDashboardController
 );
 
 router.get('/editar/:id',editHeroeId)
 router.put('/editarHeroe/:id', editarGuardar);
+
+router.delete('/eliminar/:id', eliminarSuperheroesIdDashboardController);
 
 
 export default router;

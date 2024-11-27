@@ -32,6 +32,46 @@
         ];
     };
 
+    export const insertarSuperheroeValidationRulesDashboard = () => {
+        return [
+        // Validación para nombreSuperHeroe
+        body('nombreSuperHeroe')
+            .trim()//limpia espacios en blanco al principio y/o al final del nombre
+            .notEmpty().withMessage('El nombre del superhéroe es requerido')
+            .isLength({ min: 3, max: 60 }).withMessage('El nombre del superhéroe debe tener entre 3 y 60 caracteres'),
+    
+        // Validación para nombreReal
+        body('nombreReal')
+            .trim()
+            .notEmpty().withMessage('El nombre real es requerido')
+            .isLength({ min: 3, max: 60 }).withMessage('El nombre real debe tener entre 3 y 60 caracteres'),
+    
+        // Validación para edad
+        body('edad')
+            .notEmpty().withMessage('La edad es requerida')
+            .isNumeric().withMessage('La edad debe ser un número')
+            .custom(value => value >= 0).withMessage('La edad no puede ser negativa'),
+        // Validación para poderes
+        body('poderes')
+            .notEmpty().withMessage('Debe ingresar al menos un poder')
+            .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
+            .withMessage('Cada poder debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+        
+        // Validación para aliados
+        body('aliados')
+        .notEmpty().withMessage('Debe ingresar al menos un aliado')
+        .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
+        .withMessage('Cada aliado debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+            
+        // Validación para enemigos
+        body('enemigos')
+        .notEmpty().withMessage('Debe ingresar al menos un enemigo')
+        .custom(value => value.every(item => typeof item === 'string' && item.trim().length >= 3 && item.trim().length <= 60))
+        .withMessage('Cada enemigo debe ser una cadena de texto entre 3 y 60 caracteres, sin espacios en blanco'),
+    
+        ];
+    };
+
 
     // Reglas para actualizar un superhéroe
     export const actualizarSuperheroeValidationRules = () => {
