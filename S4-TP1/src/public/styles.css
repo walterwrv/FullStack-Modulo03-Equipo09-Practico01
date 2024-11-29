@@ -1,0 +1,50 @@
+/* Estilos generales */
+body {
+    margin: 0;
+    font-family: sans-serif;
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header, contenido, footer */
+    min-height: 100vh;
+  }
+  
+  /* Navbar */
+  nav {
+    background-color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px; /* Espacio entre elementos */
+  }
+  
+  nav li a {
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+  }
+  
+  /* Contenedor principal */
+  .container {
+    display: grid;
+    grid-template-columns: 1fr; /* Responsivo: una sola columna */
+    padding: 20px;
+  }
+  .cuerpo{
+    text-align: center;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    height: 60px; /* Altura fija */
+  }
+  
