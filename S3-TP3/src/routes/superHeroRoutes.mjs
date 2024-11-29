@@ -38,11 +38,9 @@ router.delete('/nombre/:nombre', eliminarSuperheroesNombreController);
 
 //rutas ejs
 router.get('/agregar', (req,res) => {
-    const datosHeroe = req.body;
-    console.log('datos ', datosHeroe);
+    const datosHeroe = ""; // la primera vez datosHeroe va vacio
     res.render('addSuperhero', {errors: [], datosHeroe})
-
-    });
+});
 
 router.post('/guardar', 
     preprocesarDatos,
