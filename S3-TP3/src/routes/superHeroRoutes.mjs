@@ -7,9 +7,10 @@ import { obtenerSuperheroePorIdController,obtenerTodosLosSuperheroesController,b
 import { 
     insertarSuperheroeValidationRules, 
     actualizarSuperheroeValidationRules,
-    insertarSuperheroeValidationRulesDashboard 
+    preprocesarDatos
   } from '../validations/validationRules.mjs';  // Asegúrate de que la ruta sea correcta
-  import { handleValidationErrors } from '../validations/errorMiddleware.mjs';// Importa el middleware de validación de errores
+
+ import { handleValidationErrors, handleValidationErrorsEditar } from '../validations/errorMiddleware.mjs';// Importa el middleware de validación de errores
 
 const router = express.Router();
 
@@ -36,15 +37,27 @@ router.delete('/nombre/:nombre', eliminarSuperheroesNombreController);
 
 
 //rutas ejs
-router.get('/agregar', (req,res)=> res.render('addSuperhero'));
+router.get('/agregar', (req,res) => {
+    const datosHeroe = req.body;
+    console.log('datos ', datosHeroe);
+    res.render('addSuperhero', {errors: [], datosHeroe})
+
+    });
+
 router.post('/guardar', 
-    insertarSuperheroeValidationRulesDashboard(),  // Valida los campos antes de procesar
+    preprocesarDatos,
+    insertarSuperheroeValidationRules(),  // Valida los campos antes de procesar
     handleValidationErrors,  // Middleware que maneja los errores de validación
     insertarSuperheroesDashboardController
 );
 
 router.get('/editar/:id',editHeroeId)
-router.put('/editarHeroe/:id', editarGuardar);
+router.put('/editarHeroe/:id',
+    preprocesarDatos,
+    actualizarSuperheroeValidationRules(),  // Valida los campos antes de procesar
+    handleValidationErrorsEditar,  // Middleware que maneja los errores de validación
+    editarGuardar
+);
 
 router.delete('/eliminar/:id', eliminarSuperheroesIdDashboardController);
 

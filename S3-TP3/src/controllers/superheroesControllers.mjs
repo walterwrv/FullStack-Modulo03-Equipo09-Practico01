@@ -73,12 +73,7 @@ export  async function insertarSuperheroesController(req, res){
 export  async function insertarSuperheroesDashboardController(req, res){
     
     
-    const datosActualizados = {
-        ...req.body,
-        poderes: req.body.poderes.split(',').map(poder => poder.trim()),
-        aliados: req.body.aliados.split(',').map(aliado => aliado.trim()),
-        enemigos: req.body.enemigos.split(',').map(enemigo => enemigo.trim())
-      };
+    const datosActualizados = req.body;
     
     
     const superheroe =  await insertarSuperheroesDashboard(datosActualizados);
@@ -152,7 +147,11 @@ export async function editHeroeId(req, res) {
         //console.log(datosHeroes);
         if(!datosHeroe){
            return res.status(404).send("error al encontrarlo");
-        }res.render('editSuperhero', {datosHeroe});
+        }
+        res.render('editSuperhero', {
+            datosHeroe,  // Datos del héroe para prellenar
+            errors: [] 
+        });  // Sin errores al cargar la vista
     }catch(error){
        return res.status(500).send("ocurrio un error", error);
     }
@@ -160,16 +159,15 @@ export async function editHeroeId(req, res) {
 
 
 export async function editarGuardar(req, res) {
+
     try {
+        
         const { id } = req.params;
         // const datosActualizados = req.body;
 
         
         const datosActualizados = {
-            ...req.body,
-            poderes: req.body.poderes.split(',').map(poder => poder.trim()),
-            aliados: req.body.aliados.split(',').map(aliado => aliado.trim()),
-            enemigos: req.body.enemigos.split(',').map(enemigo => enemigo.trim())
+            ...req.body
           };
         
         const actualizado = await modificarSuperheroeService(id, datosActualizados);
@@ -177,6 +175,7 @@ export async function editarGuardar(req, res) {
         if (!actualizado) {
             return res.status(404).json({ mensaje: 'Superhéroe no encontrado o no se pudo actualizar' });
         }
+        // Si todo va bien, redirigir o mostrar mensaje
         req.flash('success_msg', 'Superhéroe actualizado exitosamente');
         // res.redirect('/superheroes');
         return res.status(200).send({ mensaje: 'Superhéroe actualizado correctamente' });

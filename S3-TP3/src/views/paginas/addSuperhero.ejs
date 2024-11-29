@@ -61,43 +61,54 @@
 <body>
   <div class="form-container">
     <h1>Registrar Superhéroe</h1>
-    <!-- El formulario ahora se enviará a la ruta POST '/heroes/agregar' -->
+    <!-- El formulario ahora se enviará a la ruta POST '/superheroes/guardar' -->
     <form id="superheroForm" method="POST" action="./guardar">
+
+
+      <!-- Mostrar los errores -->
+      <% if (errors.length > 0) { %>
+          <ul style="color: red;">
+              <% errors.forEach(error => { %>
+                  <li><%= error.msg %></li>
+              <% }) %>
+          </ul>
+      <% } %>
+
       <div class="form-group">
         <label for="nombreSuperHeroe">Nombre del Superhéroe</label>
-        <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" required>
+        <input type="text" id="nombreSuperHeroe" name="nombreSuperHeroe" value="<%= datosHeroe.nombreSuperHeroe %>" required>
       </div>
       <div class="form-group">
         <label for="nombreReal">Nombre Real</label>
-        <input type="text" id="nombreReal" name="nombreReal" required>
+        <input type="text" id="nombreReal" name="nombreReal" value="<%= datosHeroe.nombreReal %>" required>
       </div>
       <div class="form-group">
         <label for="edad">Edad</label>
-        <input type="number" id="edad" name="edad" min="0" required>
+        <input type="number" id="edad" name="edad" min="0" value="<%= datosHeroe.edad %>" required>
       </div>
       <div class="form-group">
         <label for="planetaOrigen">Planeta de Origen</label>
-        <input type="text" id="planetaOrigen" name="planetaOrigen" required>
+        <input type="text" id="planetaOrigen" name="planetaOrigen" value="<%= datosHeroe.planetaOrigen %>" required>
       </div>
       <div class="form-group">
         <label for="debilidad">Debilidad</label>
-        <input type="text" id="debilidad" name="debilidad" required>
+        <input type="text" id="debilidad" name="debilidad" value="<%= datosHeroe.debilidad %>" required>
       </div>
       <div class="form-group">
         <label for="poderes">Poderes (separados por comas)</label>
-        <textarea id="poderes" name="poderes" required></textarea>
+        <textarea id="poderes" name="poderes" required><%= datosHeroe.poderes %></textarea>
       </div>
       <div class="form-group">
         <label for="aliados">Aliados (separados por comas)</label>
-        <textarea id="aliados" name="aliados" required></textarea>
+        <textarea id="aliados" name="aliados" required><%= datosHeroe.aliados %></textarea>
       </div>
       <div class="form-group">
         <label for="enemigos">Enemigos (separados por comas)</label>
-        <textarea id="enemigos" name="enemigos" required></textarea>
+        <textarea id="enemigos" name="enemigos"  required><%= datosHeroe.enemigos %></textarea>
       </div>
       <div class="form-group">
         <label for="creador">Cargado por</label>
-        <input type="text" id="creador" name="creador" required>
+        <input type="text" id="creador" value="<%= datosHeroe.creador %>" name="creador" >
       </div>
       <div class="form-group">
         <button type="submit">Guardar Superhéroe</button>

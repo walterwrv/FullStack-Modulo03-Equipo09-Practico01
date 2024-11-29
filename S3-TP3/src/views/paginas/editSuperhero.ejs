@@ -116,13 +116,13 @@
             <input type="text" id="debilidad" name="debilidad" value="<%= datosHeroe.debilidad %>">
 
             <label for="poderes">Poderes (separados por comas):</label>
-            <textarea id="poderes" name="poderes"><%= datosHeroe.poderes.join(', ') %></textarea>
+            <textarea id="poderes" name="poderes" required><%= datosHeroe.poderes.join(', ') %></textarea>
 
             <label for="aliados">Aliados (separados por comas):</label>
-            <textarea id="aliados" name="aliados"><%= datosHeroe.aliados.join(', ') %></textarea>
+            <textarea id="aliados" name="aliados" required><%= datosHeroe.aliados.join(', ') %></textarea>
 
             <label for="enemigos">Enemigos (separados por comas):</label>
-            <textarea id="enemigos" name="enemigos"><%= datosHeroe.enemigos.join(', ') %></textarea>
+            <textarea id="enemigos" name="enemigos" required><%= datosHeroe.enemigos.join(', ') %></textarea>
 
             <label for="creador">Cargado por:</label>
             <input type="text" id="creador" name="creador" value="<%= datosHeroe.creador %>" required>
@@ -131,6 +131,7 @@
             <button type="submit">Guardar Cambios</button>
 
             <div id="formMessage"></div>
+          
         </form>
     </div>
 
@@ -147,7 +148,6 @@
             const formData = new FormData(form);
             const data = Object.fromEntries(formData.entries());
 
-            console.log(data.id);
             // Realiza la solicitud PUT utilizando fetch
             const response = await fetch(`/superheroes/editarHeroe/${data.id}`, {
                 method: 'PUT',  // Especifica que el método es PUT
@@ -157,13 +157,22 @@
                 body: JSON.stringify(data),  // Convertimos los datos del formulario a JSON
             });
             // Maneja la respuesta del servidor
+            // console.log(response);
+            const result = await response.json();   
             if (response.ok) {
                 messageDiv.innerHTML = '<p class="success-message">Héroe actualizado correctamente</p>';
                 window.location.href = "/superheroes";
 
             // Redirige o actualiza la página si es necesario
             } else {
-                messageDiv.innerHTML = '<p class="error-message">Error al actualizar héroe</p>';
+                // console.log('errores ',result.errors);
+                if (result.errors && result.errors.length > 0) {
+                    messageDiv.innerHTML = `<ul class="error-message">
+                        ${result.errors.map((err) => `<li>${err.msg}</li>`).join('')}
+                    </ul>`;
+                } else {
+                    messageDiv.innerHTML = '<p class="error-message">Error desconocido al actualizar el héroe.</p>';
+                }
             }
         });
     </script>
